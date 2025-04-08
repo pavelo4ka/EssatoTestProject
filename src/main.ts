@@ -3,7 +3,7 @@ import 'dotenv/config';
 
 
 const app = express();
-const port = process.env.PORT || 3000;
+const port = parseInt(process.env.PORT as string,10) || 3000;
 
 
 app.listen(port, () => {
