@@ -1,24 +1,24 @@
 import { Router, Request, Response } from 'express';
-import { DairyRecord } from './dairyRecord';
+import { DiaryRecord } from './diaryRecord';
 import query from './db';
 
 const router = Router();
 
-router.get('/dairy', async (req: Request, res: Response) => {
+router.get('/', async (req: Request, res: Response) => {
   try {
-    const result = await query('SELECT * FROM dairy_records');
-    const records = result.rows.map(DairyRecord.fromRow);
+    const result = await query('SELECT * FROM public.diary');
+    const records = result.rows.map(DiaryRecord.fromRow);
     res.json(records);
   } catch (err) {
     res.status(500).json({ error: 'Failed to fetch records' });
   }
 });
 
-router.post('/dairy', async (req: Request, res: Response) => {
+router.post('/', async (req: Request, res: Response) => {
   const { description, isGoodDay, date, temperature } = req.body;
   try {
     await query(
-      `INSERT INTO dairy_records (description, is_good_day, date, temperature) 
+      `INSERT INTO public.diary (description, is_good_day, date, temperature) 
        VALUES ($1, $2, $3, $4)`,
       [description, isGoodDay, date, temperature]
     );
@@ -28,12 +28,12 @@ router.post('/dairy', async (req: Request, res: Response) => {
   }
 });
 
-router.put('/dairy/:id', async (req: Request, res: Response) => {
+router.put('/:id', async (req: Request, res: Response) => {
   const { id } = req.params;
   const { description, isGoodDay, date, temperature } = req.body;
   try {
     await query(
-      `UPDATE dairy_records 
+      `UPDATE public.diary 
        SET description = $1, is_good_day = $2, date = $3, temperature = $4 
        WHERE id = $5`,
       [description, isGoodDay, date, temperature, id]
@@ -44,10 +44,10 @@ router.put('/dairy/:id', async (req: Request, res: Response) => {
   }
 });
 
-router.delete('/dairy/:id', async (req: Request, res: Response) => {
+router.delete('/:id', async (req: Request, res: Response) => {
   const { id } = req.params;
   try {
-    await query('DELETE FROM dairy_records WHERE id = $1', [id]);
+    await query('DELETE FROM public.diary WHERE id = $1', [id]);
     res.json({ message: 'Record deleted' });
   } catch (err) {
     res.status(500).json({ error: 'Failed to delete record' });

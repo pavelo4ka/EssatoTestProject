@@ -1,4 +1,4 @@
-export class DairyRecord {
+export class DiaryRecord {
     id: number;
     description: string | null;
     isGoodDay: boolean;
@@ -19,8 +19,8 @@ export class DairyRecord {
       this.temperature = temperature;
     }
   
-    static fromRow(row: any): DairyRecord {
-      return new DairyRecord(
+    static fromRow(row: any): DiaryRecord {
+      return new DiaryRecord(
         row.id,
         row.description,
         row.is_good_day, // так как в базе snake_case
