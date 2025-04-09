@@ -4,6 +4,7 @@ import 'dotenv/config';
 import bodyParser from 'body-parser';
 import query from './db';
 import * as dbReq from './dbRequests';
+import dairyRecordRouter from './dairyRecordRoute';
 
 const app = express();
 const port:number = parseInt(process.env.PORT as string,10) || 3000;
@@ -15,12 +16,11 @@ console.log('Basic enviroment generated');
 app.use(bodyParser.json());
 
 app.get("/",async(req:Request,res:Response)=>{
-  
     res.status(200);
     res.send("OK");
-    
 });
 
+app.use('/dairyRecords', dairyRecordRouter);
 
 
 app.listen(port, () => {
