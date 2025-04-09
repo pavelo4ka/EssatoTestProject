@@ -2,6 +2,8 @@ import { Router, Request, Response } from 'express';
 import { DiaryRecord } from './diaryRecord';
 import query from './db';
 import * as dbReq from './dbRequests';
+import getAverageTemperature from './weatherAPI';
+
 const router = Router();
 
 router.get('/', async (req: Request, res: Response) => {
@@ -39,11 +41,14 @@ router.get('/', async (req: Request, res: Response) => {
 
 
 router.post('/', async (req: Request, res: Response) => {
-  const { description, isGoodDay, date, temperature } = req.body;
+  const { description, isGoodDay, date,city} = req.body;
+
   try {
+    const temperature: number|string = await getAverageTemperature(city, date.toISOString().split('T')[0]);
     await query(dbReq.postDiaryRecord,[description, isGoodDay, date, temperature]);
     res.status(201).json({ message: 'Record created' });
   } catch (err) {
+    console.error('Failed to create record',err)
     res.status(500).json({ error: 'Failed to create record' });
   }
 });
