@@ -9,8 +9,18 @@ const pool = new Pool({
   database: process.env.DB_NAME || 'postgres',
 });
 
-const query = (text?:string, params?:string[]) => {
-  return pool.query(text, params);
+pool.on('error', (err) => {
+  console.error('DataBase error: ', err.code);
+  process.exit(1);
+});
+
+const query = async (text?:string, params?:string[]) => {
+  try{
+    return await pool.query(text, params);
+  }catch(err:any){
+    console.error('DataBase error:', err.code);
+  process.exit(1);
+  }
 };
 
 export default query;
