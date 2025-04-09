@@ -1,10 +1,10 @@
 import 'dotenv/config';
 
 export function generateBasicEnvironment(): string {
-    const schema = process.env.SCHEMA || 'public';  
-    const tableName = process.env.TABLE_NAME || 'diary'; 
+    const schema:string = process.env.SCHEMA || 'public';  
+    const tableName:string = process.env.TABLE_NAME || 'diary'; 
 
-    const createSchemaQuery = `
+    const createSchemaQuery:string = `
         DO $$
         BEGIN
             IF NOT EXISTS (SELECT 1 FROM pg_catalog.pg_namespace WHERE nspname = '${schema}') THEN
@@ -14,7 +14,7 @@ export function generateBasicEnvironment(): string {
         $$;
     `;
 
-    const createTableQuery = `
+    const createTableQuery:string = `
         DO $$
         BEGIN
             IF NOT EXISTS (SELECT 1 FROM information_schema.tables WHERE table_schema = '${schema}' AND table_name = '${tableName}') THEN
