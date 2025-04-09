@@ -1,12 +1,35 @@
 import { Router, Request, Response } from 'express';
 import { DiaryRecord } from './diaryRecord';
 import query from './db';
-
+import * as dbReq from './dbRequests';
 const router = Router();
 
 router.get('/', async (req: Request, res: Response) => {
   try {
-    const result = await query('SELECT * FROM public.diary');
+    const { sortBy, order, ...filters } = req.query;
+
+    let queryText = dbReq.getDiaryRecord;
+    const whereConditions: string[] = [];
+    const params: any[] = [];
+
+    Object.entries(filters).forEach(([key, value], index) => {
+      if (key === 'description') {
+        whereConditions.push(`${key} ILIKE $${index + 1}`);
+        params.push(`%${value}%`);
+      }else{
+        whereConditions.push(`${key} = $${index + 1}`);
+        params.push(value);
+    }});
+
+    if (whereConditions.length > 0) {
+      queryText += ' WHERE ' + whereConditions.join(' AND ');
+    }
+
+    if (sortBy) {
+      queryText += ` ORDER BY ${sortBy} ${order === 'desc' ? 'DESC' : 'ASC'}`;
+    }
+
+    const result = await query(queryText, params);
     const records = result.rows.map(DiaryRecord.fromRow);
     res.json(records);
   } catch (err) {
@@ -14,14 +37,11 @@ router.get('/', async (req: Request, res: Response) => {
   }
 });
 
+
 router.post('/', async (req: Request, res: Response) => {
   const { description, isGoodDay, date, temperature } = req.body;
   try {
-    await query(
-      `INSERT INTO public.diary (description, is_good_day, date, temperature) 
-       VALUES ($1, $2, $3, $4)`,
-      [description, isGoodDay, date, temperature]
-    );
+    await query(dbReq.postDiaryRecord,[description, isGoodDay, date, temperature]);
     res.status(201).json({ message: 'Record created' });
   } catch (err) {
     res.status(500).json({ error: 'Failed to create record' });
@@ -32,10 +52,7 @@ router.put('/:id', async (req: Request, res: Response) => {
   const { id } = req.params;
   const { description, isGoodDay, date, temperature } = req.body;
   try {
-    await query(
-      `UPDATE public.diary 
-       SET description = $1, is_good_day = $2, date = $3, temperature = $4 
-       WHERE id = $5`,
+    await query(dbReq.putDiaryRecord,
       [description, isGoodDay, date, temperature, id]
     );
     res.json({ message: 'Record updated' });
@@ -47,7 +64,7 @@ router.put('/:id', async (req: Request, res: Response) => {
 router.delete('/:id', async (req: Request, res: Response) => {
   const { id } = req.params;
   try {
-    await query('DELETE FROM public.diary WHERE id = $1', [id]);
+    await query(dbReq.deleteDiaryRecord, [id]);
     res.json({ message: 'Record deleted' });
   } catch (err) {
     res.status(500).json({ error: 'Failed to delete record' });

@@ -9,8 +9,11 @@ import dairyRecordRouter from './diaryRecordRoute';
 const app = express();
 const port:number = parseInt(process.env.PORT as string,10) || 3000;
 
-
-query(dbReq.generateBasicEnvironment());
+try{
+query(dbReq.generateBasicEnvironment);
+}catch(err){
+  console.error('Failed to create basic enviroment:',err.code)
+}
 console.log('Basic enviroment generated');
 
 app.use(bodyParser.json());
