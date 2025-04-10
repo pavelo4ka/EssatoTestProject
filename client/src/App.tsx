@@ -1,6 +1,6 @@
 // App.tsx
 import { Routes, Route, useLocation } from 'react-router-dom';
-import {ListPage} from './ListPage.js';
+import {ListPage} from './ListPage/ListPage.js';
 import {EditModal} from './EditModal.js';
 import {CreateModal} from './CreateModal.js';
 import {FilterModal} from './FilterModal.js';
