@@ -1,14 +1,7 @@
 import { useNavigate, useLocation } from 'react-router-dom';
 import React, { useState }  from 'react';
-import axios from 'axios';
-const serverUrl = import.meta.env.VITE_SERVER_URL;
+import {fetchData} from './axios-api.ts'
 
-const client = axios.create({
-  baseURL: process.env.VITE_SERVER_URL, 
-  headers: {
-    'Content-Type': 'application/json',
-  },
-});
 export const ListPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -19,13 +12,8 @@ export const ListPage = () => {
 
   const handleFindClick = async () => {
     setView('find');
-    try {
-      const response = await client.get('/diaryRecords');
-      setData(response.data);
-    } catch (err) {
-      setError('Error loading data');
-      console.error('Request error:', err); 
-    }
+    const response = await fetchData(setError);
+    if (response){setData(response.data);}
   };
 
   const handleCreateClick = () => {
@@ -64,7 +52,7 @@ export const ListPage = () => {
                     <td>{item.date}</td>
                     <td>{item.temperature}</td>
                     <td>{item.description}</td>
-                    <td>{item.isGoodDay}</td>
+                    <td>{item.isGoodDay.toString()}</td>
                   </tr>
                 ))}
               </tbody>

@@ -1,13 +1,10 @@
-// vite.config.ts
 import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
+import path from 'path';
+
 export default defineConfig({
-  root:"client",
   build: {
-    outDir: '../server/dist', 
-    rollupOptions: {
-      input: 'client/index.html'
-    }
+    outDir: path.resolve(__dirname, '../server/dist'),
   },
-  envDir: '..',
+  root: path.resolve(__dirname,''),
+  envDir: path.resolve(__dirname,'..'), 
 });
