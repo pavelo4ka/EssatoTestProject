@@ -1,6 +1,5 @@
 import pkg from 'pg';
-import { config } from 'dotenv';
-config({ path: './server/.env' });
+import 'dotenv/config';
 
 const {Pool} = pkg;
 

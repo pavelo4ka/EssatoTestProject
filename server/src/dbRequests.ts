@@ -1,5 +1,4 @@
-import { config } from 'dotenv';
-config({ path: './server/.env' });
+import 'dotenv/config';
 
 
 const schema:string = process.env.SCHEMA || 'public';  

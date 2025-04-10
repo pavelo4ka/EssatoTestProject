@@ -1,7 +1,6 @@
 import express from "express";
 import { Request, Response } from 'express';
-import { config } from 'dotenv';
-config({ path: './server/.env' });
+import 'dotenv/config';
 import bodyParser from 'body-parser';
 import query from './db.js';
 import * as dbReq from './dbRequests.js';
