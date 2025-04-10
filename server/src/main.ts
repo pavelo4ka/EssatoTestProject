@@ -1,14 +1,17 @@
 import express from "express";
 import { Request, Response } from 'express';
-import 'dotenv/config';
+import { config } from 'dotenv';
+config({ path: './server/.env' });
 import bodyParser from 'body-parser';
-import query from './db';
-import * as dbReq from './dbRequests';
-import dairyRecordRouter from './diaryRecordRoute';
+import query from './db.js';
+import * as dbReq from './dbRequests.js';
+import dairyRecordRouter from './diaryRecordRoute.js';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
 const app = express();
 const port:number = parseInt(process.env.PORT as string,10) || 3000;
-
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 try{
 query(dbReq.generateBasicEnvironment);
 }catch(err){
@@ -24,10 +27,10 @@ app.use((req, res, next) => {
   }
   next();
 });
-
+app.use(express.static(__dirname));
 app.get("/",async(req:Request,res:Response)=>{
-    res.status(200);
-    res.send("OK");
+  const filePath = path.join(__dirname, 'index.html');
+  res.status(200).sendFile(filePath);
 });
 
 app.use('/diaryRecords', dairyRecordRouter);

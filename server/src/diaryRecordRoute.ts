@@ -1,8 +1,8 @@
 import { Router, Request, Response } from 'express';
-import { DiaryRecord } from './diaryRecord';
-import query from './db';
-import * as dbReq from './dbRequests';
-import getAverageTemperature from './weatherAPI';
+import { DiaryRecord } from './diaryRecord.js';
+import query from './db.js';
+import * as dbReq from './dbRequests.js';
+import getAverageTemperature from './weatherAPI.js';
 
 const router = Router();
 
