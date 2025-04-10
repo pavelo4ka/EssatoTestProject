@@ -20,8 +20,7 @@ export const fetchData = async (setError: (error: string) => void):Promise<Axios
 };
 
 export const postData = async (
-  setError: (error: string) => void, 
-  { description, isGoodDay, date, city }: { description: string, isGoodDay: boolean, date: string, city: string }
+  { description, isGoodDay, date, city }: { description: string, isGoodDay: boolean, date: Date, city: string }
 ) => {
   try {
     const response = await client.post('/diaryRecords', {
@@ -32,13 +31,10 @@ export const postData = async (
     });
     return response.data;
   } catch (err) {
-    setError('Error creating diary record');
     console.error('Request error:', err); 
   }
 };
-export const putData = async (
-  setError: (error: string) => void,
-  id: string,  
+export const putData = async (id: string,  
   { description, isGoodDay }: { description: string, isGoodDay: boolean }
 ): Promise<AxiosResponse<any, any> | void> => {
   try {
@@ -48,20 +44,16 @@ export const putData = async (
     });
     return response.data; 
   } catch (err) {
-    setError('Error updating data');
     console.error('Request error:', err); 
   }
 };
-export const deleteData = async (
-  setError: (error: string) => void,
-  id: string 
+export const deleteData = async (id: string 
 ): Promise<AxiosResponse<any, any> | void> => {
   try {
     
     const response = await client.delete(`/diaryRecords/${id}`);
     return response.data;  
   } catch (err) {
-    setError('Error deleting data');
     console.error('Request error:', err); 
   }
 };
