@@ -26,15 +26,17 @@ The application follows a client-server architecture. The backend is responsible
 
 The implementation follows basic `REST API` practices and modern web development principles.
 ## Running the Project
-
-1. Install dependencies:
+### Via NPM
 ```bash
 npm install
-```
-2. Start the project:
-```bash
 npm run start
 ```
+
+### Via Docker-Compose
+```bash
+docker-compose up --build
+```
+
 ## Environment Variables
 By default, the following values are used:
 ``` .env
@@ -53,11 +55,6 @@ To change these settings, create a .env file in the project root and override th
 ## Note
 PostgreSQL database is required for the application to work.
 
-Конечно, вот готовый блок для README.md — красиво оформленный и готовый к вставке:
-
-md
-Kopiuj
-Edytuj
 ## API Endpoints
 
 ### Get all diary records
@@ -80,7 +77,7 @@ Fetch 10 diary records with optional filtering and pagination.
 | minDate        | string   | Minimum date for filtering (ISO 8601 format: `YYYY-MM-DDTHH:mm:ss.sssZ`)|
 | maxDate        | string   | Maximum date for filtering (ISO 8601 format: `YYYY-MM-DDTHH:mm:ss.sssZ`)|
 | isGoodDay      | boolean  | Filter for "Good Day" mark (true/false)                    |
-| description    | string   | Filter by description text                                 |city=Krakow`) |
+| description    | string   | Filter by description text                                 |
 
 #### Response:
 ```json

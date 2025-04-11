@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "${PORT}:${PORT}"
+    environment:
+    - PORT=${PORT}               # server port  
+    - DB_HOST=db                 # database host  
+    - DB_PORT=${DB_PORT}         # database port  
+    - DB_USER=${DB_USER}         # database user  
+    - DB_NAME=${DB_NAME}         # database name  
+    - SCHEMA=${SCHEMA}              # database schema  
+    - TABLE_NAME=${TABLE_NAME}          # table for storing notes  
+    - VITE_SERVER_URL=${VITE_SERVER_URL}
+
+    depends_on:
+      - db
+    networks:
+      - app_network
+
+  db:
+    image: postgres:13
+    environment:
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_HOST_AUTH_METHOD=trust
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "${DB_PORT}:${DB_PORT}"
+    networks:
+      - app_network
+
+volumes:
+  postgres_data:
+
+networks:
+  app_network:
+    driver: bridge  
