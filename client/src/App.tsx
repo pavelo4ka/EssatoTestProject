@@ -20,13 +20,16 @@ const App = () => {
         <Route path="/edit/:id" element={<EditModal />} />
         <Route path="/create" element={<CreateModal />} />
         <Route path="/filter" element={<FilterModal />} />
-        <Route path="/delete" element={<DeleteModal />} />
+        <Route path="/delete/:id" element={<DeleteModal />} />
       </Routes>
 
       {state?.backgroundLocation && (
         <Routes>
           <Route path="/edit/:id" element={<EditModal />} />
           <Route path="/create" element={<CreateModal />} />
+          <Route path="/filter" element={<FilterModal />} />
+          <Route path="/delete/:id" element={<DeleteModal />} />
+
         </Routes>
       )}
     </>
