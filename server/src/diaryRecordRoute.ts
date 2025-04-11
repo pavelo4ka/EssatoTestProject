@@ -8,8 +8,9 @@ const router = Router();
 
 router.get('/', async (req: Request, res: Response) => {
   try {
-    const { sortBy, order, minTemperature, maxTemperature, minDate, maxDate, isGoodDay, description } = req.query;
-
+    const { sortBy, order, minTemperature, maxTemperature, minDate, maxDate, isGoodDay, description,page } = req.query;
+    const limit = 10; // количество записей на странице
+    const offset = (Number(page) - 1) * limit;
     let queryText = dbReq.getDiaryRecord;
     const whereConditions: string[] = [];
     const params: any[] = [];
@@ -51,6 +52,9 @@ router.get('/', async (req: Request, res: Response) => {
     if (sortBy) {
       queryText += ` ORDER BY ${sortBy} ${order === 'desc' ? 'DESC' : 'ASC'}`;
     }
+    
+    queryText += ` LIMIT $${params.length + 1} OFFSET $${params.length + 2}`;
+    params.push(limit, offset)
 
     const result = await query(queryText, params);
     const records = result.rows.map(DiaryRecord.fromRow);

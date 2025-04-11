@@ -30,7 +30,7 @@ export const FilterModal = () => {
     });
     navigate('/', {
     state: {
-      filters: `?${searchParams.toString()}`,
+      filters: `&${searchParams.toString()}`,
     }
   });
   };

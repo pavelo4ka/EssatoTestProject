@@ -10,9 +10,9 @@ const client = axios.create({
     },
 });
 
-export const fetchData = async (setError: (error: string) => void,filter:string):Promise<AxiosResponse<any, any> | void> => {
-    try {
-        return await client.get(`/diaryRecords${filter}`);
+export const fetchData = async (setError: (error: string) => void,filter:string,page:number):Promise<AxiosResponse<any, any> | void> => {
+  try {
+        return await client.get(`/diaryRecords?page=${page}${filter}`);
       } catch (err) {
         setError('Error loading data');
         console.error('Request error:', err); 
