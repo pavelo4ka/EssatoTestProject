@@ -34,8 +34,8 @@ VALUES ($1, $2, $3, $4)`;
 
 export const putDiaryRecord:string = 
 `UPDATE public.diary 
-SET description = $1, is_good_day = $2, date = $3, temperature = $4 
-WHERE id = $5`;
+SET description = $1, is_good_day = $2 
+WHERE id = $3`;
 
 export const deleteDiaryRecord:string = 'DELETE FROM public.diary WHERE id = $1';
 

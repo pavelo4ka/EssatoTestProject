@@ -55,10 +55,10 @@ router.post('/', async (req: Request, res: Response) => {
 
 router.put('/:id', async (req: Request, res: Response) => {
   const { id } = req.params;
-  const { description, isGoodDay, date, temperature } = req.body;
+  const { description, isGoodDay} = req.body;
   try {
     await query(dbReq.putDiaryRecord,
-      [description, isGoodDay, date, temperature, id]
+      [description, isGoodDay, id]
     );
     res.json({ message: 'Record updated' });
   } catch (err) {
