@@ -11,6 +11,9 @@ import { fileURLToPath } from 'url';
 const app = express();
 const port:number = parseInt(process.env.PORT as string,10) || 3000;
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
+
+//Initialize the basic environment by running a query to set up the database.
 try{
 query(dbReq.generateBasicEnvironment);
 }catch(err){
@@ -18,9 +21,11 @@ query(dbReq.generateBasicEnvironment);
 }
 console.log('Basic enviroment generated');
 
-app.use(bodyParser.json());
 
+app.use(bodyParser.json());
 app.use(express.static(__dirname));
+
+
 app.get("/",async(req:Request,res:Response)=>{
   const filePath = path.join(__dirname, 'index.html');
   res.status(200).sendFile(filePath);

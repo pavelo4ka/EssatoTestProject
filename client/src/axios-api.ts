@@ -10,11 +10,11 @@ const client = axios.create({
     },
 });
 
-export const fetchData = async (setError: (error: string) => void,filter:string,page:number):Promise<AxiosResponse<any, any> | void> => {
+export const fetchData = async (filter:string,page:number):Promise<AxiosResponse<any, any> | void> => {
   try {
         return await client.get(`/diaryRecords?page=${page}${filter}`);
       } catch (err) {
-        setError('Error loading data');
+        alert(`$Failed to get records`);
         console.error('Request error:', err); 
       }
 };
@@ -31,6 +31,7 @@ export const postData = async (
     });
     return response.data;
   } catch (err) {
+    alert(`$Failed to create record`);
     console.error('Request error:', err); 
   }
 };
@@ -44,6 +45,7 @@ export const putData = async (id: string,
     });
     return response.data; 
   } catch (err) {
+    alert(`$Failed to edit record`);
     console.error('Request error:', err); 
   }
 };
@@ -52,8 +54,10 @@ export const deleteData = async (id: string
   try {
     
     const response = await client.delete(`/diaryRecords/${id}`);
+    
     return response.data;  
   } catch (err) {
+    alert(`$Failed to delete record`);
     console.error('Request error:', err); 
   }
 };

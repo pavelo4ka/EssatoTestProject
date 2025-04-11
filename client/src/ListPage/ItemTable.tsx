@@ -1,6 +1,7 @@
 // components/ItemTable.tsx
 import React from 'react';
 
+// Interface defining the structure of an Item object
 interface Item {
   id: string;
   date: string;
@@ -9,17 +10,20 @@ interface Item {
   isGoodDay: boolean;
 }
 
+// Map to convert boolean values to 'YES'/'NO' for the "Is a good day?" column
 const TrueToYES = new Map<boolean, string>([
   [true, "YES"],
   [false, "NO"]
 ]);
 
+// Props expected by the ItemTable component
 interface ItemTableProps {
   data: Item[];
   onEdit: (item: Item) => void;
   onDelete: (item: Item) => void;
 }
 
+// The ItemTable component renders a table with the provided item data and allows editing and deleting
 const ItemTable: React.FC<ItemTableProps> = ({ data, onEdit, onDelete }) => {
   return (
     <table border="1" style={{ margin: '0 auto', width: '80%' }}>
