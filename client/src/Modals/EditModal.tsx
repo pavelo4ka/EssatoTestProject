@@ -1,6 +1,6 @@
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import React, { useState } from 'react';
-import { putData } from './axios-api';
+import { putData } from '../axios-api';
 
 export const EditModal = () => {
   const navigate = useNavigate();

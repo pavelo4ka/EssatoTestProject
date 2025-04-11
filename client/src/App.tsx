@@ -1,10 +1,10 @@
 // App.tsx
 import { Routes, Route, useLocation } from 'react-router-dom';
 import {ListPage} from './ListPage/ListPage.js';
-import {EditModal} from './EditModal.js';
-import {CreateModal} from './CreateModal.js';
-import {FilterModal} from './FilterModal.js';
-import {DeleteModal} from './DeleteModal.js';
+import {EditModal} from './Modals/EditModal.js';
+import {CreateModal} from './Modals/CreateModal.js';
+import {FilterModal} from './Modals/FilterModal.js';
+import {DeleteModal} from './Modals/DeleteModal.js';
 
 import React from 'react';
 

@@ -1,6 +1,6 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import React, { useState } from 'react';
-import { postData } from './axios-api';
+import { postData } from '../axios-api';
 
 
 export const CreateModal = () => {

@@ -1,6 +1,6 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import React from 'react';
-import { deleteData } from './axios-api';
+import { deleteData } from '../axios-api';
 
 export const DeleteModal = () => {
   const navigate = useNavigate();
