@@ -9,7 +9,7 @@ const router = Router();
 router.get('/', async (req: Request, res: Response) => {
   try {
     const { sortBy, order, minTemperature, maxTemperature, minDate, maxDate, isGoodDay, description,page } = req.query;
-    const limit = 10; // количество записей на странице
+    const limit = 10;
     const offset = (Number(page) - 1) * limit;
     let queryText = dbReq.getDiaryRecord;
     const whereConditions: string[] = [];
@@ -68,9 +68,10 @@ router.get('/', async (req: Request, res: Response) => {
 
 router.post('/', async (req: Request, res: Response) => {
   const { description, isGoodDay, date,city} = req.body;
-
+  console.log(date);
   try {
-    const temperature: number|string = await getAverageTemperature(city, date.toISOString().split('T')[0]);
+    const temperature: number|string = await getAverageTemperature(city, date);
+    
     await query(dbReq.postDiaryRecord,[description, isGoodDay, date, temperature]);
     res.status(201).json({ message: 'Record created' });
   } catch (err) {

@@ -9,6 +9,11 @@ interface Item {
   isGoodDay: boolean;
 }
 
+const TrueToYES = new Map<boolean, string>([
+  [true, "YES"],
+  [false, "NO"]
+]);
+
 interface ItemTableProps {
   data: Item[];
   onEdit: (item: Item) => void;
@@ -24,16 +29,16 @@ const ItemTable: React.FC<ItemTableProps> = ({ data, onEdit, onDelete }) => {
           <th>Temperature</th>
           <th>Description</th>
           <th>Is a good day?</th>
-          <th>Actions</th> {/* Новый столбец для кнопок */}
+          <th>Actions</th> {}
         </tr>
       </thead>
       <tbody>
         {data.map((item) => (
           <tr key={item.id}>
-            <td>{item.date}</td>
+            <td>{item.date.slice(0, 10)}</td>
             <td>{item.temperature}</td>
             <td>{item.description}</td>
-            <td>{item.isGoodDay.toString()}</td>
+            <td>{TrueToYES.get(item.isGoodDay)}</td>
             <td>
               <button onClick={() => onEdit(item)} style={{ marginRight: '10px' }}>
                 Edit

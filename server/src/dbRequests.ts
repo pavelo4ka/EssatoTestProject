@@ -20,7 +20,7 @@ BEGIN
             id SERIAL PRIMARY KEY,                 
             description TEXT,                       
             is_good_day BOOLEAN NOT NULL,           
-            date TIMESTAMP DEFAULT CURRENT_TIMESTAMP, 
+            date DATE DEFAULT CURRENT_DATE,
             temperature NUMERIC(5, 1)
         );
     END IF;

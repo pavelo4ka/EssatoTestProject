@@ -58,7 +58,7 @@ export const ListPage = () => {
     
     useEffect(() => {
         if (!loading) {
-            find();  // Делаем запрос каждый раз, когда страница изменяется
+            find(); 
         }
     }, [page]); 
     return (

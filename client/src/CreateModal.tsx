@@ -8,7 +8,7 @@ export const CreateModal = () => {
   const [description, setDescription] = useState<string>("");
   const [isGoodDay, setGood] = useState<boolean>(false);
   const [city, setCity] = useState<string>("");
-
+  const isSaveDisabled = city === '';
   return (
     <div
       style={{
@@ -69,10 +69,11 @@ export const CreateModal = () => {
             onClick={() => {
               console.log("Description:", description);
               console.log("Liked:", isGoodDay);
-              postData({ description, isGoodDay, date:new Date(), city })
+              postData({ description, isGoodDay, date:(new Date()).toISOString().slice(0,10), city })
               navigate(-1);
             }}
-          >
+            disabled={isSaveDisabled}
+            >
             Save
           </button>
         </div>

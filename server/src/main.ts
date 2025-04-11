@@ -20,12 +20,6 @@ console.log('Basic enviroment generated');
 
 app.use(bodyParser.json());
 
-app.use((req, res, next) => {
-  if (req.body && req.body.date) {
-    req.body.date = new Date(req.body.date); 
-  }
-  next();
-});
 app.use(express.static(__dirname));
 app.get("/",async(req:Request,res:Response)=>{
   const filePath = path.join(__dirname, 'index.html');

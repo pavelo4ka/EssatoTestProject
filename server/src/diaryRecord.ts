@@ -2,14 +2,14 @@ export class DiaryRecord {
     id: number;
     description: string | null;
     isGoodDay: boolean;
-    date: Date;
+    date: string;
     temperature: number | null;
   
     constructor(
       id: number,
       description: string | null,
       isGoodDay: boolean,
-      date: Date,
+      date: string,
       temperature: number | null
     ) {
       this.id = id;
@@ -23,8 +23,8 @@ export class DiaryRecord {
       return new DiaryRecord(
         row.id,
         row.description,
-        row.is_good_day, // так как в базе snake_case
-        new Date(row.date),
+        row.is_good_day, 
+        row.date,
         row.temperature
       );
     }

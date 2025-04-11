@@ -20,7 +20,7 @@ export const fetchData = async (setError: (error: string) => void,filter:string,
 };
 
 export const postData = async (
-  { description, isGoodDay, date, city }: { description: string, isGoodDay: boolean, date: Date, city: string }
+  { description, isGoodDay, date, city }: { description: string, isGoodDay: boolean, date: string, city: string }
 ) => {
   try {
     const response = await client.post('/diaryRecords', {
