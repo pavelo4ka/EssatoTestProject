@@ -8,20 +8,41 @@ const router = Router();
 
 router.get('/', async (req: Request, res: Response) => {
   try {
-    const { sortBy, order, ...filters } = req.query;
+    const { sortBy, order, minTemperature, maxTemperature, minDate, maxDate, isGoodDay, description } = req.query;
 
     let queryText = dbReq.getDiaryRecord;
     const whereConditions: string[] = [];
     const params: any[] = [];
 
-    Object.entries(filters).forEach(([key, value], index) => {
-      if (key === 'description') {
-        whereConditions.push(`${key} ILIKE $${index + 1}`);
-        params.push(`%${value}%`);
-      }else{
-        whereConditions.push(`${key} = $${index + 1}`);
-        params.push(value);
-    }});
+    if (minTemperature) {
+      params.push(minTemperature);
+      whereConditions.push(`temperature >= $${params.length}`);
+    }
+
+    if (maxTemperature) {
+      params.push(maxTemperature);
+      whereConditions.push(`temperature <= $${params.length}`);
+    }
+
+    if (minDate) {
+      params.push(minDate);
+      whereConditions.push(`date >= $${params.length}`);
+    }
+
+    if (maxDate) {
+      params.push(maxDate);
+      whereConditions.push(`date <= $${params.length}`);
+    }
+
+    if (typeof isGoodDay !== 'undefined') {
+      params.push(isGoodDay);
+      whereConditions.push(`"is_good_day" = $${params.length}`);
+    }
+
+    if (description) {
+      params.push(`%${description}%`);
+      whereConditions.push(`description ILIKE $${params.length}`);
+    }
 
     if (whereConditions.length > 0) {
       queryText += ' WHERE ' + whereConditions.join(' AND ');
@@ -38,6 +59,7 @@ router.get('/', async (req: Request, res: Response) => {
     res.status(500).json({ error: 'Failed to fetch records' });
   }
 });
+
 
 
 router.post('/', async (req: Request, res: Response) => {

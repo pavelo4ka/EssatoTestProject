@@ -9,14 +9,12 @@ export const ListPage = () => {
     const navigate = useNavigate();
     const location = useLocation();
 
-    const [view, setView] = useState('find');
     const [data, setData] = useState([]);
     const [error, setError] = useState(null);
-
+    const [filter,setFilter] = useState('');
 
     const handleFindClick = async () => {
-        setView('find');
-        const response = await fetchData(setError);
+        const response = await fetchData(setError,filter);
         if (response) setData(response.data);
     };
 
@@ -25,7 +23,7 @@ export const ListPage = () => {
     };
 
     const handleFilterClick = () => {
-        setView('filter');
+        navigate('/filter', { state: { backgroundLocation: location , filters:filter} });
     };
 
     const handleDelete = (item) => {
@@ -35,18 +33,21 @@ export const ListPage = () => {
     const handleEdit = (item) => {
         if (item) navigate(`edit/${item.id}`, { state: { backgroundLocation: location, item:item } });
     };
-
+    useEffect(() => {
+        if (location.state?.filters) {
+          setFilter(location.state.filters);
+        }
+      }, [location.state]);
     return (
         <div>
             <NavBar onFindClick={handleFindClick} onCreateClick={handleCreateClick} onFilterClick={handleFilterClick} />
             <div style={{ padding: '20px', textAlign: 'center' }}>
-                {view === 'find' && (
+                
                     <div>
                         <h1>Items List</h1>
                         <ItemTable data={data} onEdit={handleEdit} onDelete={handleDelete} />
                     </div>
-                )}
-                {view === 'filter' && <h1>You clicked "Filter"</h1>}
+                
             </div>
         </div>
     );
